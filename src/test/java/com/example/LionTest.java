@@ -14,32 +14,29 @@ import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
 public class LionTest {
- private final String gender;
- private final boolean expected;
-
-
- public LionTest(String gender, boolean expected) {
-     this.gender=gender;
-     this.expected=expected;
-
- }
-
- @Before
- public void init(){
-     MockitoAnnotations.initMocks(this);
- }
+    private final String gender;
+    private final boolean expected;
     @Mock
- Feline feline;
+    Feline feline;
 
- @Parameterized.Parameters(name = "gender={0}, expected={1}")
- public static Object[][] getGender() {
-     return new Object[][]{
-             {"Самец", true},
-             {"Самка", false},
+    public LionTest(String gender, boolean expected) {
+        this.gender = gender;
+        this.expected = expected;
+    }
 
+    @Parameterized.Parameters(name = "gender={0}, expected={1}")
+    public static Object[][] getGender() {
+        return new Object[][]{
+                {"Самец", true},
+                {"Самка", false},
+        };
+    }
 
-     };
- }
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void getKittens() throws Exception {
         when(feline.getKittens()).thenReturn(2);
@@ -49,22 +46,21 @@ public class LionTest {
 
     @Test
     public void doesHaveMane() throws Exception {
-        var lion = new Lion ("Самец", feline);
-        assertEquals(true,lion.doesHaveMane());
-
+        var lion = new Lion("Самец", feline);
+        assertTrue(lion.doesHaveMane());
     }
 
     @Test
     public void getFood() throws Exception {
         when(feline.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
-        var lion = new Lion (gender, feline);
-        assertEquals(List.of("Животные", "Птицы", "Рыба"),lion.getFood());
+        var lion = new Lion(gender, feline);
+        assertEquals(List.of("Животные", "Птицы", "Рыба"), lion.getFood());
     }
 
     @Test
     public void checkExсeption() {
-        Exception actualExсeption = assertThrows(Exception.class, ()->
-      new Lion("Другой пол", feline));
+        Exception actualExсeption = assertThrows(Exception.class, () ->
+                new Lion("Другой пол", feline));
         assertEquals("Используйте допустимые значения пола животного - самец или самка", actualExсeption.getMessage());
     }
 }

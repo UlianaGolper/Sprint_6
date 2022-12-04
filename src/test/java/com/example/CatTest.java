@@ -13,22 +13,20 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-
 public class CatTest {
-   @Mock
-   Feline feline;
+    @Mock
+    Feline feline;
 
     @Test
     public void getSound() throws Exception {
         var cat = new Cat(new Feline());
-        assertEquals("Мяу",cat.getSound());
-
+        assertEquals("Мяу", cat.getSound());
     }
 
     @Test
     public void getFood() throws Exception {
         when(feline.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
         var cat = new Cat(feline);
-        assertEquals(List.of("Животные", "Птицы", "Рыба"),cat.getFood());
+        assertEquals(List.of("Животные", "Птицы", "Рыба"), cat.getFood());
     }
 }
